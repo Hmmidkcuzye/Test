@@ -1,0 +1,1243 @@
+game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(p)
+				fireproximityprompt(p)
+			end)
+wait(1)
+local kavoUi = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))()
+
+local window = kavoUi.CreateLib("Vitamin HUB","Synapse")
+
+---Tabs
+
+local Tab1 = window:NewTab("Basic")
+
+local Tab1Section = Tab1:NewSection("Basic Scripts")
+
+local Tab2 = window:NewTab("Bypasses")
+
+local Tab2Section = Tab2:NewSection("Bypass")
+
+local Tab3 = window:NewTab("Credits")
+
+local Tab3Section = Tab3:NewSection("Created by toyniccubujori")
+
+local Tab3Section = Tab3:NewSection("Version 0.0.1 Alpha")
+
+local Tab3Section = Tab3:NewSection("ESP made by octacore#9990")
+
+local Tab3Section = Tab3:NewSection("This script is on testing and it may be removed!")
+
+local Tab4 = window:NewTab("ESP")
+
+local Tab4Section = Tab4:NewSection("Tracks any object from Workspace")
+local Tab5 = window:NewTab("Plush")
+
+local Tab5Section = Tab5:NewSection("Gives Plush :D")
+
+local Tab6 = window:NewTab("Other scripts.")
+
+local Tab6Section = Tab6:NewSection("THIS OP SCRIPTS TAB AREN'T MINE.")
+
+local Tab7 = window:NewTab("Destroy")
+
+local Tab7Section = Tab7:NewSection("Destroy entity")
+
+local Tab8 = window:NewTab("POV")
+
+local Tab8Section = Tab8:NewSection("POINT OF VIEW AN ENTITY (Must use fixcam on infinite yield to work!")
+local Tab9 = window:NewTab("Troll")
+
+local Tab9Section = Tab9:NewSection("TROLL PEOPLE (VISIBLE TO ALL) ")
+---Buttons
+Tab1Section:NewButton("Get Crucifix","",function()
+
+
+local function IsVisible(part)
+    local vec, found=workspace.CurrentCamera:WorldToViewportPoint(part.Position)
+    local onscreen = found and vec.Z > 0
+    local cfg = RaycastParams.new()
+    cfg.FilterType = Enum.RaycastFilterType.Blacklist
+    cfg.FilterDescendantsInstances = {part}
+
+    local cast = workspace:Raycast(part.Position, (game.Players.LocalPlayer.Character.UpperTorso.Position - part.Position), cfg)
+    if onscreen then
+        if cast and (cast and cast.Instance).Parent==game.Players.LocalPlayer.Character then
+            return true
+        end
+    end
+end
+
+local Equipped = false
+
+-- Edit this --
+getgenv().spawnKey = Enum.KeyCode.F4
+---------------
+
+-- Services
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+-- Variables
+
+local Plr = Players.LocalPlayer
+local Char = Plr.Character or Plr.CharacterAdded:Wait()
+local Hum = Char:WaitForChild("Humanoid")
+local Root = Char:WaitForChild("HumanoidRootPart")
+local RightArm = Char:WaitForChild("RightUpperArm")
+local LeftArm = Char:WaitForChild("LeftUpperArm")
+
+local RightC1 = RightArm.RightShoulder.C1
+local LeftC1 = LeftArm.LeftShoulder.C1
+
+local SelfModules = {
+    Functions = loadstring(
+        game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Functions.lua")
+    )(),
+    CustomShop = loadstring(
+        game:HttpGet(
+            "https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Custom%20Shop%20Items/Source.lua"
+        )
+    )(),
+}
+
+local ModuleScripts = {
+    MainGame = require(Plr.PlayerGui.MainUI.Initiator.Main_Game),
+    SeekIntro = require(Plr.PlayerGui.MainUI.Initiator.Main_Game.RemoteListener.Cutscenes.SeekIntro),
+}
+
+-- Functions
+
+local function setupCrucifix(tool)
+    tool.Equipped:Connect(function()
+        Equipped = true
+        Char:SetAttribute("Hiding", true)
+        for _, v in next, Hum:GetPlayingAnimationTracks() do
+            v:Stop()
+        end
+
+        RightArm.Name = "R_Arm"
+        LeftArm.Name = "L_Arm"
+
+        RightArm.RightShoulder.C1 = RightC1 * CFrame.Angles(math.rad(-90), math.rad(-15), 0)
+        LeftArm.LeftShoulder.C1 = LeftC1
+            * CFrame.new(-0.2, -0.3, -0.5)
+            * CFrame.Angles(math.rad(-125), math.rad(25), math.rad(25))
+    end)
+
+    tool.Unequipped:Connect(function()
+        Equipped = false
+        Char:SetAttribute("Hiding", nil)
+        RightArm.Name = "RightUpperArm"
+        LeftArm.Name = "LeftUpperArm"
+
+        RightArm.RightShoulder.C1 = RightC1
+        LeftArm.LeftShoulder.C1 = LeftC1
+    end)
+end
+
+-- Scripts
+
+local CrucifixTool = game:GetObjects("rbxassetid://11590476113")[1]
+CrucifixTool.Name = "Crucifix"
+CrucifixTool.Parent = game.Players.LocalPlayer.Backpack
+
+-- game.UserInputService.InputBegan:Connect(function(input, proc)
+--     if proc then return end
+
+--     if input.KeyCode == input.KeyCode[getgenv().spawnKey] then
+--         local CrucifixTool = game:GetObjects("rbxassetid://11590476113")[1]
+--         CrucifixTool.Name = "Crucifix"
+--         CrucifixTool.Parent = game.Players.LocalPlayer.Backpack
+--     end
+-- end)
+-- Input handler
+
+setupCrucifix(CrucifixTool)
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+-- Variables
+
+local Plr = Players.LocalPlayer
+local Char = Plr.Character or Plr.CharacterAdded:Wait()
+local Hum = Char:WaitForChild("Humanoid")
+local Root = Char:WaitForChild("HumanoidRootPart")
+
+local dupeCrucifix = Instance.new("BindableEvent")
+local function func(ins)
+    wait(.01) -- Wait for the attribute
+    if ins:GetAttribute("IsCustomEntity")==true and ins:GetAttribute("ClonedByCrucifix")~=true then
+        local Chains = game:GetObjects("rbxassetid://11584227521")[1]
+        Chains.Parent = workspace
+        local chained = true
+        local posTime = false
+        local rotTime = false
+        local tweenTime = false
+        local intFound = true
+
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if Equipped then
+                if ins.Parent~=nil and ins.PrimaryPart and IsVisible(ins.PrimaryPart) and (Root.Position-ins.PrimaryPart.Position).magnitude <= 25 then
+                    local c=ins:Clone()
+                    c:SetAttribute("ClonedByCrucifix", true)
+                    c.RushNew.Anchored=true
+                    c.Parent=ins.Parent
+                    ins:Destroy()
+                    dupeCrucifix:Fire(6,c.RushNew)
+
+
+                    
+                    -- Chains.PrimaryPart.Orientation = Chains.PrimaryPart.Orientation + Vector3.new(0, 3, 0)
+
+                    local EntityRoot = c:FindFirstChild("RushNew")
+
+                    if EntityRoot then
+
+
+
+                        local Fake_FaceAttach = Instance.new("Attachment")
+                        Fake_FaceAttach.Parent = EntityRoot
+                        
+
+                        for i, beam in pairs(Chains:GetDescendants()) do
+                            if beam:IsA("BasePart") then
+                                beam.CanCollide = false
+                            end
+                            if beam.Name == "Beam" then
+                                beam.Attachment1 = Fake_FaceAttach
+                            end
+                        end
+                        
+                        if not posTime then
+                            Chains:SetPrimaryPartCFrame(
+                                EntityRoot.CFrame * CFrame.new(0, -3.5, 0) * CFrame.Angles(math.rad(90), 0, 0)
+                            )
+                            posTime = true
+                        end
+
+                        task.wait(1.35)
+                        if not tweenTime then
+
+                            task.spawn(function()
+                                while task.wait() do
+                                    if Chains:FindFirstChild('Base') then
+                                        Chains.Base.CFrame = Chains.Base.CFrame * CFrame.Angles(0,0 , math.rad(0.5))
+                                    end
+                                end
+                            end)
+
+                            task.spawn(function()
+                                while task.wait() do
+                                    for i, beam in pairs(Chains:GetDescendants()) do
+                                        if beam.Name == "Beam" then
+                                            beam.TextureLength = beam.TextureLength+0.035
+                                        end
+                                    end
+                                end
+                            end)
+
+
+                            game.TweenService
+                                :Create(
+                                    EntityRoot,
+                                    TweenInfo.new(6),
+                                    { CFrame = EntityRoot.CFrame * CFrame.new(0, 50, 0) }
+                                )
+                                :Play()
+                            
+
+                            tweenTime = true
+                            task.wait(1.5)
+                            intFound = false
+                            game:GetService("Debris"):AddItem(c, 0)
+                            game:GetService("Debris"):AddItem(Chains, 0)
+                        end
+                    end
+                end
+            end
+        end)
+    elseif ins.Name=="Lookman" then
+        local c=ins
+        task.spawn(function()
+            repeat task.wait() until IsVisible(c.Core) and Equipped and c.Core.Attachment.Eyes.Enabled==true
+            local pos=c.Core.Position
+            dupeCrucifix:Fire(18.364, c.Core)
+            task.spawn(function()
+                c:SetAttribute("Killing", true)
+                ModuleScripts.MainGame.camShaker:ShakeOnce(10, 10, 5, 0.15)
+                wait(5)
+                c.Core.Initiate:Stop()
+                for i=1,3 do
+                    c.Core.Repent:Play()  
+                    c.Core.Attachment.Angry.Enabled=true
+                    ModuleScripts.MainGame.camShaker:ShakeOnce(8, 8, 1.3, 0.15)
+                    delay(c.Core.Repent.TimeLength, function() c.Core.Attachment.Angry.Enabled=false end)
+                    wait(4)
+                end
+                c.Core.Scream:Play();
+                ModuleScripts.MainGame.camShaker:ShakeOnce(8, 8, c.Core.Scream.TimeLength, 0.15);
+                (c.Core:FindFirstChild"whisper" or c.Core:FindFirstChild"Ambience"):Stop()
+                for _, l in pairs(c:GetDescendants()) do
+                    if l:IsA("PointLight") then
+                        l.Enabled=false
+                    end
+                end
+                game:GetService("TweenService"):Create(c.Core, TweenInfo.new(c.Core.Scream.TimeLength, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    CFrame=CFrame.new(c.Core.CFrame.X, c.Core.CFrame.Y-12, c.Core.CFrame.Z)
+                }):Play()
+            end)
+            local col=game.Players.LocalPlayer.Character.Collision
+
+            local function CFrameToOrientation(cf)
+                local x, y, z = cf:ToOrientation()
+                return Vector3.new(math.deg(x), math.deg(y), math.deg(z))
+            end
+            
+            while c.Parent~=nil and c.Core.Attachment.Eyes.Enabled==true do
+                -- who's the boss now huh?
+                col.Orientation = CFrameToOrientation(CFrame.lookAt(col.Position, pos)*CFrame.Angles(0, math.pi, 0))
+                task.wait()
+            end
+        end)
+    elseif ins.Name=="Shade" and ins.Parent==workspace.CurrentCamera and ins:GetAttribute("ClonedByCrucifix")==nil then
+        task.spawn(function()
+            repeat task.wait() until IsVisible(ins) and (Root.Position-ins.Position).Magnitude <= 12.5 and Equipped
+
+            local clone = ins:Clone()
+
+            clone.CFrame = ins.CFrame
+            clone.Parent = ins.Parent
+            clone.Anchored = true
+
+            ins:Remove()
+
+            dupeCrucifix:Fire(13, ins)
+            ModuleScripts.MainGame.camShaker:ShakeOnce(40, 10, 5, 0.15)
+
+
+
+            for _, thing in pairs(clone:GetDescendants()) do
+                if thing:IsA("SpotLight") then
+                    game:GetService("TweenService"):Create(thing, TweenInfo.new(5), {
+                        Brightness=thing.Brightness*5
+                    }):Play()
+                elseif thing:IsA("Sound") and thing.Name~="Burst" then
+                    game:GetService("TweenService"):Create(thing, TweenInfo.new(5), {
+                        Volume=0
+                    }):Play()
+                elseif thing:IsA("TouchTransmitter") then thing:Destroy() end
+            end
+
+            for _, pc in pairs(clone:GetDescendants()) do
+                if pc:IsA("ParticleEmitter") then
+                        pc.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 4)), ColorSequenceKeypoint.new(0.48, Color3.fromRGB(182, 0, 3)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 4))}
+                end
+            end
+
+            local Original_color = {}
+
+            local light
+            light = game.Lighting["Ambience_Shade"]
+            game:GetService("TweenService"):Create(light, TweenInfo.new(1), {
+
+
+            }):Play()
+
+            wait(5)
+
+            clone.Burst.PlaybackSpeed=0.5
+            clone.Burst:Stop()
+            clone.Burst:Play()
+            light.TintColor = Color3.fromRGB(215,253,255)
+            game:GetService("TweenService"):Create(clone, TweenInfo.new(6), {
+                CFrame=CFrame.new(clone.CFrame.X, clone.CFrame.Y-12, clone.CFrame.Z)
+            }):Play()
+            wait(8.2)
+
+            game:GetService("Debris"):AddItem(clone, 0)
+            game.ReplicatedStorage.Bricks.ShadeResult:FireServer()
+        end)
+    end
+end
+
+workspace.ChildAdded:Connect(func)
+workspace.CurrentCamera.ChildAdded:Connect(func)
+for _, thing in pairs(workspace:GetChildren()) do
+    func(thing)
+end
+dupeCrucifix.Event:Connect(function(time, entityRoot)
+    local Cross = game:GetObjects("rbxassetid://11656343590")[1]
+    Cross.Parent = workspace
+
+    local fakeCross = Cross.Handle
+
+    -- fakeCross:FindFirstChild("EffectLight").Enabled = true
+
+    ModuleScripts.MainGame.camShaker:ShakeOnce(35, 25, 0.15, 0.15)
+    -- you tell me i didnt make?
+    fakeCross.CFrame = CFrame.lookAt(CrucifixTool.Handle.Position, entityRoot.Position)
+    
+    -- hl.Parent = model
+    -- hl.FillTransparency = 1
+    -- hl.OutlineColor = Color3.fromRGB(75, 177, 255)
+    fakeCross.Anchored = true
+
+    CrucifixTool:Destroy()
+
+    -- for i, v in pairs(fakeCross:GetChildren()) do
+    --     if v.Name == "E" and v:IsA("BasePart") then
+    --         v.Transparency = 0
+    --         v.CanCollide = false
+    --     end
+    --     if v:IsA("Motor6D") then
+    --         v.Name = "Motor6D"
+    --     end
+    -- end
+
+    task.wait(time)
+    fakeCross.Anchored = false
+    fakeCross.CanCollide = true
+    task.wait(0.5)
+    Cross:Remove()
+end) 
+end)
+Tab4Section:NewButton("A120","",function()
+local function findKey(model)
+    for _, child in pairs(model:GetChildren()) do
+        if child.Name == "A120" then
+            local a = Instance.new("BillboardGui",child)
+            a.Name = "A"
+            a.Size = UDim2.new(1,0,1,0)
+            a.AlwaysOnTop = true
+            local b = Instance.new("TextLabel",a)
+            b.Text = "A120"
+            b.BackgroundTransparency = 1
+            b.BorderSizePixel = 0
+            b.Size = UDim2.new(1,0,1,0)
+            b.TextColor3 = Color3.new(250,0,0)
+            b.TextSize = 10
+        end
+        findKey(child)
+    end
+end
+
+while true do
+findKey(game:GetService("Workspace"))
+wait(5)
+end
+end)
+
+Tab1Section:NewToggle("Fatal Death", "Oof", function(state)
+    if state then
+
+        game.Players.LocalPlayer.Character.Humanoid.Health = 90
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 80
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 70
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 60
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 50
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 40
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 30
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 20
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 10
+wait(0.1)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+    else
+        game.Players.LocalPlayer.Character.Humanoid.Health = 100
+    end
+end)
+Tab9Section:NewButton("Ambush Anticheat","",function()
+Game.ReplicatedStorage.EntityInfo.PreRunShop:FireServer({"Crucifix"})
+end)
+
+Tab1Section:NewButton("Lobby","Lobby You",function()
+game.ReplicatedStorage.EntityInfo.Lobby:FireServer()
+end)
+
+Tab1Section:NewButton("Play Again","Play again",function()
+game.ReplicatedStorage.EntityInfo.PlayAgain:FireServer()
+end)
+
+Tab6Section:NewButton("Dex","Dex EXPLORER Mobile and Computer",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
+end)
+
+Tab6Section:NewButton("Auto A-1000","You cool!",function()
+-- Made by geodude
+
+if game.PlaceId ~= 6839171747 or game.ReplicatedStorage.GameData.Floor.Value ~= "Rooms" then
+	game.StarterGui:SetCore("SendNotification", { Title = "Invalid Place"; Text = "The game detected appears to not be rooms. Please execute this while in rooms!" })
+	
+	local Sound = Instance.new("Sound")
+	Sound.Parent = game.SoundService
+	Sound.SoundId = "rbxassetid://550209561"
+	Sound.Volume = 5
+	Sound.PlayOnRemove = true
+	Sound:Destroy()
+	
+	return
+elseif workspace:FindFirstChild("PathFindPartsFolder") then
+	game.StarterGui:SetCore("SendNotification", { Title = "Warning"; Text = "If you are having issues and the bot is broken, please contact me! geodude#2619" })
+	
+	local Sound = Instance.new("Sound")
+	Sound.Parent = game.SoundService
+	Sound.SoundId = "rbxassetid://550209561"
+	Sound.Volume = 5
+	Sound.PlayOnRemove = true
+	Sound:Destroy()
+	
+	workspace.PathFindPartsFolder:Destroy()
+	
+	return
+end
+
+local PathfindingService = game:GetService("PathfindingService")
+local VirtualInputManager = game:GetService('VirtualInputManager')
+local LocalPlayer = game.Players.LocalPlayer
+local LatestRoom = game.ReplicatedStorage.GameData.LatestRoom
+
+local Cooldown = false
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+
+local TextLabel = Instance.new("TextLabel")
+TextLabel.Parent = ScreenGui
+
+TextLabel.Size = UDim2.new(0,350,0,100)
+TextLabel.TextSize = 48
+TextLabel.TextStrokeColor3 = Color3.new(1,1,1)
+TextLabel.TextStrokeTransparency = 0
+TextLabel.BackgroundTransparency = 1
+
+local GC = getconnections or get_signal_cons
+if GC then
+    for i,v in pairs(GC(LocalPlayer.Idled)) do
+        if v["Disable"] then
+            v["Disable"](v)
+        elseif v["Disconnect"] then
+            v["Disconnect"](v)
+        end
+    end
+end
+
+local Folder = Instance.new("Folder")
+Folder.Parent = workspace
+Folder.Name = "PathFindPartsFolder"
+
+if LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.RemoteListener.Modules:FindFirstChild("A90") then
+    LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.RemoteListener.Modules.A90:Destroy() -- Fuck you A90
+end
+
+function GetOut()
+    LocalPlayer.DevComputerMovementMode = Enum.DevComputerMovementMode.KeyboardMouse
+    task.wait()
+    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.W, false, nil)
+
+    for i=1,2 do
+        task.wait()
+    end
+
+    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.W, false, nil)
+    task.wait()
+    LocalPlayer.DevComputerMovementMode = Enum.DevComputerMovementMode.Scriptable
+end
+
+function getLocker()
+    local Closest
+
+    for i,v in pairs(workspace.CurrentRooms:GetDescendants()) do
+        if v.Name == "Rooms_Locker" then
+            if v:FindFirstChild("Door") and v:FindFirstChild("HiddenPlayer") then
+                if v.HiddenPlayer.Value == nil then
+                    if v.Door.Position.Y > -3 then -- Prevents going to the lower lockers in the room with the bridge 
+                        if Closest == nil then
+                            Closest = v.Door
+                        else
+                            if (LocalPlayer.Character.HumanoidRootPart.Position - v.Door.Position).Magnitude < (Closest.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude then
+                                Closest = v.Door
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+    return Closest
+end
+
+function getPath()
+    local Part
+	
+	local Entity = workspace:FindFirstChild("A60") or workspace:FindFirstChild("A120")
+    if Entity and Entity.Main.Position.Y > -4 then
+        Part = getLocker()
+    else
+        Part = workspace.CurrentRooms[LatestRoom.Value].Door.Door
+    end
+    return Part
+end
+
+LatestRoom:GetPropertyChangedSignal("Value"):Connect(function()
+    TextLabel.Text = "Room: "..math.clamp(LatestRoom.Value, 1,1000)
+
+    if LatestRoom.Value ~= 1000 then
+        LocalPlayer.DevComputerMovementMode = Enum.DevComputerMovementMode.Scriptable
+    else
+        LocalPlayer.DevComputerMovementMode = Enum.DevComputerMovementMode.KeyboardMouse
+    end
+end)
+
+game:GetService("RunService").RenderStepped:connect(function()
+    LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+    LocalPlayer.Character.Collision.CanCollide = false
+    LocalPlayer.Character.Collision.Size = Vector3.new(5,LocalPlayer.Character.Collision.Size.Y,5)
+
+    LocalPlayer.Character.Humanoid.WalkSpeed = 21
+
+    local Path = getPath()
+    
+    local Entity = workspace:FindFirstChild("A60") or workspace:FindFirstChild("A120")
+    if Entity then
+        if Path then
+            if Path.Parent.Name == "Rooms_Locker" then
+                if Entity.Main.Position.Y > -4 then
+                    if (LocalPlayer.Character.HumanoidRootPart.Position - Path.Position).Magnitude < 1.3 then
+                        if LocalPlayer.Character.HumanoidRootPart.Anchored == false then
+                            fireproximityprompt(Path.Parent.HidePrompt)
+                        end
+                    end
+                end
+            end
+        end
+        if Entity.Main.Position.Y < -5 then -- Instead of waiting for them to be deleted just do this LOL
+            if LocalPlayer.Character.HumanoidRootPart.Anchored == true then
+                if Cooldown == false then
+                    GetOut()
+                    Cooldown = true
+                    task.wait(.6)
+                    Cooldown = false
+                end
+            end
+        end
+    else
+        if LocalPlayer.Character.HumanoidRootPart.Anchored == true then
+            if Cooldown == false then
+                GetOut()
+                Cooldown = true
+                task.wait(.6)
+                Cooldown = false
+            end
+        end
+    end
+end)
+
+while true do
+
+    task.wait()
+
+    local Destination = getPath()
+
+    local path = PathfindingService:CreatePath({ WaypointSpacing = 2, AgentRadius = 1.25, AgentCanJump = false })
+    path:ComputeAsync(LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(0,3,0), Destination.Position)
+    local Waypoints = path:GetWaypoints()
+
+    if path.Status ~= Enum.PathStatus.NoPath then
+
+        Folder:ClearAllChildren()
+
+        for _, Waypoint in pairs(Waypoints) do
+            local part = Instance.new("Part")
+            part.Size = Vector3.new(1,1,1)
+            part.Position = Waypoint.Position
+            part.Shape = "Cylinder"
+            part.Rotation = Vector3.new(0,0,90)
+            part.Material = "Neon"
+            part.Transparency = 0.9
+            part.Anchored = true
+            part.CanCollide = false
+            part.Parent = Folder
+        end
+
+        for _, Waypoint in pairs(Waypoints) do
+            if LocalPlayer.Character.HumanoidRootPart.Anchored == false then
+                LocalPlayer.Character.Humanoid:MoveTo(Waypoint.Position)
+                LocalPlayer.Character.Humanoid.MoveToFinished:Wait()
+            end
+        end
+    end
+end
+end)
+
+Tab9Section:NewButton("INFINITE JACK (NOT BY ME)","Visible to all",function()
+-- inf jack(use Anticheat Bypass)
+
+Instance.new("Highlight", game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"])
+
+local InfJack1 = game:GetService("RunService").RenderStepped:Connect(function()
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 0)
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 1)
+
+end)
+
+local InfJack2 = game:GetService("RunService").RenderStepped:Connect(function()
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 0)
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 1)
+
+end)
+
+local InfJack3 = game:GetService("RunService").RenderStepped:Connect(function()
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 0)
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 1)
+
+end)
+
+local InfJack4 = game:GetService("RunService").RenderStepped:Connect(function()
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 0)
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 1)
+
+end)
+
+local InfJack5 = game:GetService("RunService").RenderStepped:Connect(function()
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 0)
+
+    fireproximityprompt(game.Workspace.CurrentRooms[game:GetService("ReplicatedStorage").GameData.LatestRoom.Value].Assets["Wardrobe"].HidePrompt, 1)
+
+end)
+
+wait(10)
+
+InfJack1:Disconnect()
+
+InfJack2:Disconnect()
+
+InfJack3:Disconnect()
+
+InfJack4:Disconnect()
+
+InfJack5:Disconnect()
+end)
+Tab8Section:NewButton("toyniccubujori POV Script","Entity POV",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/toyniccubujori/Jealousdummy-s-entity-POV/main/source"))()
+end)
+
+
+Tab6Section:NewButton("PoopDoors V2","???",function()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/mstudio45/poopdoors_edited/main/poopdoors_edited.lua'),true))()
+end)
+Tab6Section:NewButton("poop doors",".",function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/zoophiliaphobic/POOPDOORS/main/script.lua'))()
+end)
+
+Tab6Section:NewButton("King HUB",".",function()
+loadstring(game:HttpGet(('https://pastebin.com/raw/R8QMbhzv')))()
+end)
+
+Tab6Section:NewButton("Infinite Yield",".",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+end)
+
+Tab5Section:NewButton("Screech","???",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/OfficerMesh/DoorsScreechPlushie/main/script"))()
+end)
+
+Tab4Section:NewButton("GoldPile","GoldPile",function()
+local function findKey(model)
+    for _, child in pairs(model:GetChildren()) do
+        if child.Name == "GoldPile" then
+            local a = Instance.new("BillboardGui",child)
+            a.Name = "A"
+            a.Size = UDim2.new(1,0,1,0)
+            a.AlwaysOnTop = true
+            local b = Instance.new("TextLabel",a)
+            b.Text = "GoldPile"
+            b.BackgroundTransparency = 1
+            b.BorderSizePixel = 0
+            b.Size = UDim2.new(1,0,1,0)
+            b.TextColor3 = Color3.new(0,0,255)
+            b.TextSize = 10
+        end
+        findKey(child)
+    end
+end
+
+while true do
+findKey(game:GetService("Workspace"))
+wait(5)
+end
+end)
+
+Tab4Section:NewButton("Fake Door ESP","Track Fake Doors",function()
+local function findKey(model)
+    for _, child in pairs(model:GetChildren()) do
+        if child.Name == "DoorFake" then
+            local a = Instance.new("BillboardGui",child)
+            a.Name = "A"
+            a.Size = UDim2.new(1,0,1,0)
+            a.AlwaysOnTop = true
+            local b = Instance.new("TextLabel",a)
+            b.Text = "DoorFake"
+            b.BackgroundTransparency = 1
+            b.BorderSizePixel = 0
+            b.Size = UDim2.new(1,0,1,0)
+            b.TextColor3 = Color3.new(0,0,255)
+            b.TextSize = 10
+        end
+        findKey(child)
+    end
+end
+
+while true do
+findKey(game:GetService("Workspace"))
+wait(5)
+end
+end)
+
+Tab4Section:NewButton("Players ESP","Track Players",function()
+local players = game.Players:GetPlayers() for i,v in pairs(players) do local esp = Instance.new("Highlight") esp.Name = v.Name esp.FillTransparency = 0 esp.FillColor = Color3.new(205, 98, 152) esp.OutlineColor = Color3.new(205, 98, 152) esp.OutlineTransparency = 0 esp.Parent = v.Character end
+  end)
+Tab4Section:NewButton("Key ESP","Key Tracker",function()
+local function findKey(model)
+    for _, child in pairs(model:GetChildren()) do
+        if child.Name == "Key" then
+            local a = Instance.new("BillboardGui",child)
+            a.Name = "A"
+            a.Size = UDim2.new(1,0,1,0)
+            a.AlwaysOnTop = true
+            local b = Instance.new("TextLabel",a)
+            b.Text = "Key"
+            b.BackgroundTransparency = 1
+            b.BorderSizePixel = 0
+            b.Size = UDim2.new(1,0,1,0)
+            b.TextColor3 = Color3.new(255,0,0)
+            b.TextSize = 10
+        end
+        findKey(child)
+    end
+end
+
+while true do
+findKey(game:GetService("Workspace"))
+wait(5)
+end
+end)
+
+Tab4Section:NewButton("Door ESP","Track Door",function()
+local function findKey(model)
+    for _, child in pairs(model:GetChildren()) do
+        if child.Name == "Door" then
+            local a = Instance.new("BillboardGui",child)
+            a.Name = "A"
+            a.Size = UDim2.new(1,0,1,0)
+            a.AlwaysOnTop = true
+            local b = Instance.new("TextLabel",a)
+            b.Text = "Door"
+            b.BackgroundTransparency = 1
+            b.BorderSizePixel = 0
+            b.Size = UDim2.new(1,0,1,0)
+            b.TextColor3 = Color3.new(0,255,0)
+            b.TextSize = 10
+        end
+        findKey(child)
+    end
+end
+
+while true do
+findKey(game:GetService("Workspace"))
+wait(5)
+end
+end)
+Tab1Section:NewButton("Bypass revive limit/revive at door 90+ (U still need have revives)","Revive",function()
+game.ReplicatedStorage.EntityInfo.Revive:FireServer()
+end)
+
+Tab1Section:NewButton("Rejoin","Rejoin the server",function()
+-- rejoin		
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local Rejoin = coroutine.create(function()
+    local Success, ErrorMessage = pcall(function()
+        TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    end)
+
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    end
+end)
+
+coroutine.resume(Rejoin)
+game.Players.LocalPlayer:Kick("Secure Rejoin!")
+end)
+
+
+
+Tab1Section:NewButton("Kill","Sets Health to 0",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.Health = 0
+
+end)
+
+Tab1Section:NewButton("FullBright","Full Bright",function()
+
+	local lighting = game:GetService("Lighting");	lighting.Ambient = Color3.fromRGB(255, 255, 255);
+
+	lighting.Brightness = 1;
+
+	lighting.FogEnd = 1e10;
+
+	for i, v in pairs(lighting:GetDescendants()) do
+
+		if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("SunRaysEffect") then
+
+			v.Enabled = false;
+
+		end;
+
+	end;
+
+	lighting.Changed:Connect(function()
+
+		lighting.Ambient = Color3.fromRGB(255, 255, 255);
+
+		lighting.Brightness = 1;
+
+		lighting.FogEnd = 1e10;
+
+	end);
+
+	spawn(function()
+
+		local character = game:GetService("Players").LocalPlayer.Character;
+
+		while wait() do
+
+			repeat wait() until character ~= nil;
+
+			if not character.HumanoidRootPart:FindFirstChildWhichIsA("PointLight") then
+
+				local headlight = Instance.new("PointLight", character.HumanoidRootPart);
+
+				headlight.Brightness = 1;
+
+				headlight.Range = 9999;
+
+			end;
+
+		end;
+
+	end);
+
+end)
+
+Tab1Section:NewButton("Leave","Kicks you",function()
+
+Game.Players.LocalPlayer:Kick("PlayerService requested dissconect")
+
+end)
+
+Tab1Section:NewButton("Spawn Timothy(T)","???",function()
+local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
+require(a.RemoteListener.Modules.SpiderJumpscare)(require(a), workspace.CurrentRooms["0"].Assets.Dresser.DrawerContainer, 0.2)
+
+end)
+
+Tab1Section:NewButton("Spawn Screech (Q)","???",function()
+
+local UIS=game:GetService'UserInputService'
+
+getgenv().KeyBind="Q"
+
+ 
+
+UIS.InputBegan:Connect(function(Key)
+
+     if Key.KeyCode==Enum.KeyCode[getgenv().KeyBind] and not UIS:GetFocusedTextBox() then
+
+          require(game.StarterGui.MainUI.Initiator.Main_Game.RemoteListener.Modules.Screech)(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game),
+
+workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")])
+
+     end
+
+end)
+
+end)
+
+Tab1Section:NewButton("Btools","Gives Btools",function()
+
+a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+a.BinType = 2
+
+b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+b.BinType = 3
+
+c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+c.BinType = 4
+
+end)
+
+Tab1Section:NewButton("Enable Inventory","Enables Inventory To Bypass Anti Btools",function()
+
+local remote = NLS ([==[
+
+print("Camera Has Been Fixed")
+
+while wait() do
+
+game:GetService("Workspace").CurrentCamera.CameraSubject = owner.Character.Head
+
+]==], owner.Character):WaitForChild 'ServerRemote';
+
+mouse = owner:GetMouse ();
+
+end) 
+
+Tab2Section:NewButton("AntiCheat Bypass","Bypasses the Anti Cheat",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+
+wait(5)
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+
+wait(0.1)
+local c = game.Players.LocalPlayer.Character
+local h2 = c.Humanoid:Clone()
+c.Humanoid:Destroy()
+h2.Parent = c
+
+end)
+Tab6Section:NewButton("poop doors",".",function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/zoophiliaphobic/POOPDOORS/main/script.lua'))()
+end)
+
+Tab6Section:NewButton("King HUB",".",function()
+loadstring(game:HttpGet(('https://pastebin.com/raw/R8QMbhzv')))()
+end)
+
+Tab6Section:NewButton("Infinite Yield",".",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+end)
+
+Tab5Section:NewButton("Screech","???",function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/OfficerMesh/DoorsScreechPlushie/main/script"))()
+end)
+
+Tab4Section:NewButton("Players ESP","Track Players",function()
+local players = game.Players:GetPlayers() for i,v in pairs(players) do local esp = Instance.new("Highlight") esp.Name = v.Name esp.FillTransparency = 0 esp.FillColor = Color3.new(205, 98, 152) esp.OutlineColor = Color3.new(205, 98, 152) esp.OutlineTransparency = 0 esp.Parent = v.Character end
+  end)
+Tab1Section:NewButton("Bypass revive limit/revive at door 90+ (U still need have revives)","Revive",function()
+game.ReplicatedStorage.EntityInfo.Revive:FireServer()
+end)
+
+Tab1Section:NewButton("Rejoin","Rejoin the server",function()
+-- rejoin		
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local Rejoin = coroutine.create(function()
+    local Success, ErrorMessage = pcall(function()
+        TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    end)
+
+    if ErrorMessage and not Success then
+        warn(ErrorMessage)
+    end
+end)
+
+coroutine.resume(Rejoin)
+game.Players.LocalPlayer:Kick("Secure Rejoin!")
+end)
+
+Tab1Section:NewButton("Normal Speed","16",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+
+end)
+
+Tab1Section:NewButton("24 Speed","24",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 24
+
+end)
+
+Tab1Section:NewButton("32 Speed","32",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32
+
+end)
+
+Tab1Section:NewButton("64 Speed","64",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 64
+
+end)
+
+Tab1Section:NewButton("100 Speed","100",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+
+end)
+
+Tab1Section:NewButton("Kill","Sets Health to 0",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.Health = 0
+
+end)
+
+Tab1Section:NewButton("FullBright","Full Bright",function()
+
+	local lighting = game:GetService("Lighting");	lighting.Ambient = Color3.fromRGB(255, 255, 255);
+
+	lighting.Brightness = 1;
+
+	lighting.FogEnd = 1e10;
+
+	for i, v in pairs(lighting:GetDescendants()) do
+
+		if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("SunRaysEffect") then
+
+			v.Enabled = false;
+
+		end;
+
+	end;
+
+	lighting.Changed:Connect(function()
+
+		lighting.Ambient = Color3.fromRGB(255, 255, 255);
+
+		lighting.Brightness = 1;
+
+		lighting.FogEnd = 1e10;
+
+	end);
+
+	spawn(function()
+
+		local character = game:GetService("Players").LocalPlayer.Character;
+
+		while wait() do
+
+			repeat wait() until character ~= nil;
+
+			if not character.HumanoidRootPart:FindFirstChildWhichIsA("PointLight") then
+
+				local headlight = Instance.new("PointLight", character.HumanoidRootPart);
+
+				headlight.Brightness = 1;
+
+				headlight.Range = 9999;
+
+			end;
+
+		end;
+
+	end);
+
+end)
+
+Tab1Section:NewButton("Leave","Kicks you",function()
+
+Game.Players.LocalPlayer:Kick("PlayerService requested dissconect")
+
+end)
+
+Tab1Section:NewButton("Spawn Timothy(T)","???",function()
+local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
+require(a.RemoteListener.Modules.SpiderJumpscare)(require(a), workspace.CurrentRooms["0"].Assets.Dresser.DrawerContainer, 0.2)
+
+end)
+
+Tab1Section:NewButton("Spawn Screech (Q)","???",function()
+
+local UIS=game:GetService'UserInputService'
+
+getgenv().KeyBind="Q"
+
+ 
+
+UIS.InputBegan:Connect(function(Key)
+
+     if Key.KeyCode==Enum.KeyCode[getgenv().KeyBind] and not UIS:GetFocusedTextBox() then
+
+          require(game.StarterGui.MainUI.Initiator.Main_Game.RemoteListener.Modules.Screech)(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game),
+
+workspace.CurrentRooms[game.Players.LocalPlayer:GetAttribute("CurrentRoom")])
+
+     end
+
+end)
+
+end)
+
+Tab1Section:NewButton("Btools","Gives Btools",function()
+
+a = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+a.BinType = 2
+
+b = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+b.BinType = 3
+
+c = Instance.new("HopperBin", game.Players.LocalPlayer.Backpack)
+
+c.BinType = 4
+
+end)
+
+Tab1Section:NewButton("Enable Inventory","Enables Inventory To Bypass Anti Btools",function()
+
+local remote = NLS ([==[
+
+print("Camera Has Been Fixed")
+
+while wait() do
+
+game:GetService("Workspace").CurrentCamera.CameraSubject = owner.Character.Head
+
+]==], owner.Character):WaitForChild 'ServerRemote';
+
+mouse = owner:GetMouse ();
+
+end) 
+
+Tab2Section:NewButton("AntiCheat Bypass","Bypasses the Anti Cheat",function()
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+
+wait(5)
+
+Game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+
+wait(0.1)
+local c = game.Players.LocalPlayer.Character
+local h2 = c.Humanoid:Clone()
+c.Humanoid:Destroy()
+h2.Parent = c
+
+end)
